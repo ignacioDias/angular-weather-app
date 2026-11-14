@@ -1,10 +1,10 @@
-@if (currentWeather(); as weather) {
+@if (currentWeather(); as current) {
   <div class="weather-info">
     <h2>Weather Information</h2>
-    <p>Temperature: {{ weather.current.temperature_2m }}°C</p>
-    <p>Humidity: {{ weather.current.relative_humidity_2m }}%</p>
-    <p>Feels like: {{ weather.current.apparent_temperature }}°C</p>
-    <p>Wind speed: {{ weather.current.wind_speed_10m }} km/h</p>
+    <p>Temperature: {{ current.current.temperature_2m }}°C</p>
+    <p>Humidity: {{ current.current.relative_humidity_2m }}%</p>
+    <p>Feels like: {{ current.current.apparent_temperature }}°C</p>
+    <p>Wind speed: {{ current.current.wind_speed_10m }} km/h</p>
   </div>
 } @else {
   <div class="no-weather-info">

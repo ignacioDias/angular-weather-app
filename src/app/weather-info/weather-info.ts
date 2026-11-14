@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { WeatherResponse } from '../weather-api-service';
 @Component({
   imports: [],
@@ -7,9 +7,5 @@ import { WeatherResponse } from '../weather-api-service';
   templateUrl: './weather-info.html',
 })
 export class WeatherInfo {
-  protected currentWeather = signal<WeatherResponse | null>(null);
-
-  protected updateWeather(weather: WeatherResponse | null) {
-    this.currentWeather.set(weather);
-  }
+  readonly currentWeather = input<WeatherResponse | null>(null);
 }
