@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { signal } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon'
 
@@ -11,6 +11,7 @@ import {MatIconModule} from '@angular/material/icon'
 export class SearchCity {
 
   protected searchQuery = signal('');
+  protected readonly searchQueryOutput = output<string>();
 
   protected onInput(event: Event): void {
     const inputValue = (event.target as HTMLInputElement).value;
@@ -18,6 +19,7 @@ export class SearchCity {
   }
 
   protected onSearch(): void {
-    console.log('Search query:', this.searchQuery());
+    this.searchQueryOutput.emit(this.searchQuery());
+    this.searchQuery.set('');
   }
 }

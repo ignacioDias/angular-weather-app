@@ -1,4 +1,4 @@
-<div class="topnav">
-  <input type="text" placeholder="Search city.." (input)="onInput($event)" (keyup.enter)="onSearch()">
+<div class="searchbar">
+  <input type="text" placeholder="Search city.." [value]="searchQuery()" (input)="onInput($event)" (keyup.enter)="onSearch()">
   <mat-icon (click)="onSearch()">search</mat-icon>
 </div>

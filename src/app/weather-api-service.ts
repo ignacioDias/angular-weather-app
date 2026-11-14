@@ -1,5 +1,5 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 
 interface WeatherResponse {
   current: {
@@ -10,10 +10,21 @@ interface WeatherResponse {
   };
 }
 
+export type City ={
+  latitude: number;
+  longitude: number;
+  name: string;
+}
+
+@Service()
 export class WeatherApiService {
   private http = inject(HttpClient);
   private url = 'https://api.open-meteo.com/v1/forecast';
-  
+
+  getLatitudeAndLongitude(city: string) {
+    return this.http.get<{ latitude: number; longitude: number }>(`https://api.open-meteo.com/v1/search?name=${city}`);
+  }
+
   getWeather(latitude: number, longitude: number) {
     return httpResource<WeatherResponse>(() => ({
       url: this.url,
