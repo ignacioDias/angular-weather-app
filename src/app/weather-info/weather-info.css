@@ -4,9 +4,6 @@
 
 /* A printed weather report rather than a floating card: flat panel, one rule. */
 .weather-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 0;
   position: relative;
   padding: clamp(24px, 4vw, 36px);
   background: var(--panel);
@@ -26,7 +23,6 @@
 }
 
 h2 {
-  grid-column: 1 / -1;
   margin: 0 0 22px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--sky-line);
@@ -36,34 +32,164 @@ h2 {
   letter-spacing: -0.01em;
 }
 
-p {
-  margin: 0;
-  padding: 4px 20px 4px 0;
-  color: var(--sky-ink);
-  font-size: clamp(1.0625rem, 1.9vw, 1.25rem);
-  font-variant-numeric: tabular-nums;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.005em;
-}
-
-p + p {
-  border-left: 1px solid var(--sky-line);
-  padding-left: 20px;
-}
-
-/* Loading state: same panel, same mast, skeleton readouts in place. */
-.skeleton-metrics {
-  grid-column: 1 / -1;
+.weather-body {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(20px, 4vw, 36px);
 }
 
+/* Hero: condition icon and the reading you came for. */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.hero-icon {
+  color: var(--sky-ink);
+  font-size: clamp(48px, 9vw, 68px);
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'wght' 300;
+}
+
+.hero-icon.is-sunny {
+  color: var(--sun);
+}
+
+.hero-temp {
+  margin: 6px 0 0;
+  color: var(--sky-ink);
+  font-size: clamp(3.25rem, 10vw, 4.5rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.hero-temp .unit {
+  margin-left: 0.1em;
+  color: var(--sky-muted);
+  font-size: 0.34em;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.4;
+  vertical-align: top;
+}
+
+.hero-feels {
+  margin: 0;
+  color: var(--sky-muted);
+  font-size: 0.9375rem;
+}
+
+/* Instruments sit behind a hairline, like a secondary dial panel. */
+.instruments {
+  display: grid;
+  gap: 22px;
+  padding-left: clamp(0px, 3vw, 28px);
+  border-left: 1px solid var(--sky-line);
+}
+
+.instrument {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+
+.instrument-label {
+  color: var(--sky-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Humidity as a radial gauge: the ring is the value. */
+.gauge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(var(--sky-ink) var(--humidity, 0%), var(--sky-line) 0);
+}
+
+.gauge::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  background: var(--panel);
+  border-radius: 50%;
+}
+
+.gauge-value {
+  position: relative;
+  z-index: 1;
+  color: var(--sky-ink);
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.gauge-unit {
+  color: var(--sky-muted);
+  font-size: 0.7em;
+  font-weight: 500;
+}
+
+/* Wind as a Beaufort ladder: filled bars count up to the current force. */
+.wind-value {
+  margin: 0;
+  color: var(--sky-ink);
+  font-size: clamp(1.5rem, 3vw, 1.75rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.wind-unit {
+  margin-left: 0.25em;
+  color: var(--sky-muted);
+  font-size: 0.5em;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.wind-scale {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+}
+
+.wind-segment {
+  height: 20px;
+  border-radius: 3px;
+  background: var(--sky-line);
+}
+
+.wind-segment.is-on {
+  background: var(--sky-muted);
+}
+
+.wind-segment.is-current {
+  background: var(--sun);
+}
+
+.wind-name {
+  margin: 0;
+  color: var(--sky-muted);
+  font-size: 0.8125rem;
+}
+
+/* Loading state: the same layout, resolved as skeleton shapes. */
 .skeleton {
   display: block;
-  height: 1.25rem;
-  border-radius: 6px;
+  border-radius: 8px;
   background: linear-gradient(
     90deg,
     var(--sky-line) 0%,
@@ -74,12 +200,26 @@ p + p {
   animation: weather-shimmer 1.4s ease-in-out infinite;
 }
 
-.skeleton--metric:nth-child(2) {
-  width: 78%;
+.skeleton--icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
 }
 
-.skeleton--metric:nth-child(3) {
-  width: 88%;
+.skeleton--temp {
+  width: min(70%, 200px);
+  height: 3.25rem;
+}
+
+.skeleton--line {
+  width: min(55%, 150px);
+  height: 1rem;
+}
+
+.skeleton--gauge {
+  width: 92px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 
 .visually-hidden {
@@ -115,8 +255,6 @@ p + p {
 
 .no-weather-info p {
   margin: 0;
-  padding: 0;
-  border: 0;
   color: var(--sky-muted);
   font-size: 1rem;
   font-weight: 400;
@@ -124,20 +262,16 @@ p + p {
 }
 
 @media (max-width: 600px) {
-  .weather-info {
+  .weather-body {
     grid-template-columns: 1fr;
   }
 
-  p + p {
+  .instruments {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    padding-top: 20px;
     border-left: 0;
     border-top: 1px solid var(--sky-line);
-    padding: 14px 0 0;
-    margin-top: 14px;
-  }
-
-  .skeleton-metrics {
-    grid-template-columns: 1fr;
-    gap: 26px;
   }
 }
 

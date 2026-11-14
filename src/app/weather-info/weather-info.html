@@ -7,19 +7,66 @@
   >
     <span class="visually-hidden">Loading weather…</span>
     <h2>Weather Information</h2>
-    <div class="skeleton-metrics" aria-hidden="true">
-      <span class="skeleton skeleton--metric"></span>
-      <span class="skeleton skeleton--metric"></span>
-      <span class="skeleton skeleton--metric"></span>
+    <div class="weather-body" aria-hidden="true">
+      <div class="hero">
+        <span class="skeleton skeleton--icon"></span>
+        <span class="skeleton skeleton--temp"></span>
+        <span class="skeleton skeleton--line"></span>
+      </div>
+      <div class="instruments">
+        <span class="skeleton skeleton--gauge"></span>
+        <span class="skeleton skeleton--line"></span>
+      </div>
     </div>
   </div>
 } @else if (currentWeather(); as current) {
   <div class="weather-info">
     <h2>Weather Information</h2>
-    <p>Temperature: {{ current.current.temperature_2m }}°C</p>
-    <p>Humidity: {{ current.current.relative_humidity_2m }}%</p>
-    <p>Feels like: {{ current.current.apparent_temperature }}°C</p>
-    <p>Wind speed: {{ current.current.wind_speed_10m }} km/h</p>
+    <div class="weather-body">
+      <div class="hero">
+        <span
+          class="material-symbols-outlined hero-icon"
+          role="img"
+          [attr.aria-label]="conditionLabel()"
+          [class.is-sunny]="isSunny()"
+        >{{ weatherIcon() }}</span>
+        <p class="hero-temp">
+          {{ current.current.temperature_2m }}<span class="unit">°C</span>
+        </p>
+        <p class="hero-feels">Feels like {{ current.current.apparent_temperature }}°C</p>
+      </div>
+
+      <div class="instruments">
+        <div class="instrument">
+          <span class="instrument-label">Humidity</span>
+          <div
+            class="gauge"
+            [style.--humidity]="current.current.relative_humidity_2m + '%'"
+          >
+            <span class="gauge-value">
+              {{ current.current.relative_humidity_2m }}<span class="gauge-unit">%</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="instrument">
+          <span class="instrument-label">Wind</span>
+          <p class="wind-value">
+            {{ current.current.wind_speed_10m }}<span class="wind-unit">km/h</span>
+          </p>
+          <div class="wind-scale" aria-hidden="true">
+            @for (level of windSegments; track level) {
+              <span
+                class="wind-segment"
+                [class.is-on]="level <= windLevel()"
+                [class.is-current]="level === windLevel()"
+              ></span>
+            }
+          </div>
+          <p class="wind-name">{{ windName() }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 } @else {
   <div class="no-weather-info">

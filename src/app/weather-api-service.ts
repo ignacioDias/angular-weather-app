@@ -8,6 +8,7 @@ export interface WeatherResponse {
     relative_humidity_2m: number;
     apparent_temperature: number;
     wind_speed_10m: number;
+    weather_code: number;
   };
 }
 
@@ -53,7 +54,7 @@ export class WeatherApiService {
       const params = new URLSearchParams({
         latitude: String(city.latitude),
         longitude: String(city.longitude),
-        current: 'temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m'
+        current: 'temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code'
       });
       return `${this.weatherURL}?${params.toString()}`;
     });
