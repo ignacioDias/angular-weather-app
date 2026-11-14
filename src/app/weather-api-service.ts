@@ -2,7 +2,7 @@ import { HttpClient, httpResource } from '@angular/common/http';
 import { Service, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-interface WeatherResponse {
+export interface WeatherResponse {
   current: {
     temperature_2m: number;
     relative_humidity_2m: number;
