@@ -36,7 +36,6 @@ export class WeatherApiService {
       )
     ).then((response) => {
       this.currentCity.set(response.results?.[0] ?? null);
-      console.log('Current city set to:', this.currentCity());
       return this.currentCity();
     });
   }

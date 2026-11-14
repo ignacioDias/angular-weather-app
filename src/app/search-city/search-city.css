@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 20px;
+  background: var(--panel);
+  border: 1px solid var(--sky-line);
+  border-radius: 999px;
+  box-shadow: 0 14px 30px -24px rgba(18, 41, 58, 0.55);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.searchbar:focus-within {
+  border-color: var(--sky-muted);
+  box-shadow: 0 0 0 4px rgba(83, 112, 131, 0.14);
+}
+
+input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.005em;
+}
+
+input::placeholder {
+  color: var(--sky-muted);
+  opacity: 0.85;
+}
+
+mat-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--sky-ink);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+mat-icon:hover {
+  background: #1c4058;
+}
+
+mat-icon:active {
+  transform: scale(0.96);
+}
+
+mat-icon:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .searchbar,
+  mat-icon {
+    transition: none;
+  }
+}

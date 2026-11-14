@@ -1,0 +1,7 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 4vw, 36px);
+  width: min(100%, 720px);
+  margin-inline: auto;
+}

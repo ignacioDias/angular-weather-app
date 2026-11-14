@@ -1,0 +1,86 @@
+:host {
+  display: block;
+}
+
+/* A printed weather report rather than a floating card: flat panel, one rule. */
+.weather-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0;
+  position: relative;
+  padding: clamp(24px, 4vw, 36px);
+  background: var(--panel);
+  border: 1px solid var(--sky-line);
+  border-radius: 18px;
+  box-shadow: 0 36px 64px -56px rgba(18, 41, 58, 0.75);
+  overflow: hidden;
+}
+
+/* Thin sun-coloured mast along the top edge. */
+.weather-info::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sun) 0%, #f2c477 42%, transparent 100%);
+}
+
+h2 {
+  grid-column: 1 / -1;
+  margin: 0 0 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--sky-line);
+  color: var(--sky-ink);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+  padding: 4px 20px 4px 0;
+  color: var(--sky-ink);
+  font-size: clamp(1.0625rem, 1.9vw, 1.25rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+
+p + p {
+  border-left: 1px solid var(--sky-line);
+  padding-left: 20px;
+}
+
+.no-weather-info {
+  display: grid;
+  place-items: center;
+  min-height: 148px;
+  padding: 32px 24px;
+  border: 1px dashed var(--sky-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.no-weather-info p {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--sky-muted);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .weather-info {
+    grid-template-columns: 1fr;
+  }
+
+  p + p {
+    border-left: 0;
+    border-top: 1px solid var(--sky-line);
+    padding: 14px 0 0;
+    margin-top: 14px;
+  }
+}

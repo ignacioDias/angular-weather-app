@@ -1,3 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
-
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap');
 @import 'tailwindcss';
+
+/* Design tokens: an overcast sky easing into paper, with one sun accent. */
+:root {
+  --sky-haze: #dbe9f3;
+  --sky-paper: #f4f8fb;
+  --sky-ink: #12293a;
+  --sky-muted: #537083;
+  --sky-line: #c8d9e4;
+  --sun: #e9a33a;
+  --panel: #ffffff;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: var(--sky-paper);
+  /* The single atmospheric moment: high haze, a low sun, and open paper below. */
+  background-image:
+    radial-gradient(900px 520px at 78% -8%, rgba(233, 163, 58, 0.22), transparent 62%),
+    radial-gradient(1100px 700px at 8% 0%, rgba(122, 176, 214, 0.3), transparent 65%),
+    linear-gradient(180deg, var(--sky-haze) 0%, var(--sky-paper) 46%, var(--sky-paper) 100%);
+  background-attachment: fixed;
+  color: var(--sky-ink);
+  font-family: 'Instrument Sans', 'Roboto', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
