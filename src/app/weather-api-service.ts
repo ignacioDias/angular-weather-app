@@ -29,13 +29,18 @@ export class WeatherApiService {
   private weatherURL = 'https://api.open-meteo.com/v1/forecast';
 
   generateCurrentCityFromName(city: string) {
-    return this.http.get<GeocodingResponse>(`${this.searchNameURL}search`, {
-      params: { name: city }
-    }).pipe(
+    const encodedCity = this.encodeCityName(city);
+    return this.http.get<GeocodingResponse>(
+      `${this.searchNameURL}search?name=${encodedCity}`
+    ).pipe(
       tap((response) => {
         this.currentCity.set(response.results?.[0] ?? null);
       })
     );
+  }
+
+  private encodeCityName(city: string): string {
+    return encodeURIComponent(city.trim());
   }
 
   getWeatherFromCurrentCity() {
