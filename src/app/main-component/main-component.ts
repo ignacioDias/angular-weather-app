@@ -12,7 +12,10 @@ export class MainComponent {
 
   protected weatherApiService = inject(WeatherApiService);
 
-  protected  onSearchQuery(query: string) {
-    console.log('Search query received in MainComponent:', query);
+  protected onSearchQuery(query: string) {
+    if(query != null && query.trim() != '') {
+      this.weatherApiService.generateCurrentCityFromName(query)
+    }
   }
+
 }
