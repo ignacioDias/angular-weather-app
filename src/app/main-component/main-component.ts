@@ -12,9 +12,13 @@ export class MainComponent {
 
   protected weatherApiService = inject(WeatherApiService);
 
-  protected onSearchQuery(query: string) {
-    if(query != null && query.trim() != '') {
-      this.weatherApiService.generateCurrentCityFromName(query)
+  protected async onSearchQuery(query: string) {
+    if (query != null && query.trim() != '') {
+      try {
+        await this.weatherApiService.generateCurrentCityFromName(query);
+      } catch (error) {
+        console.error('Failed to look up city:', error);
+      }
     }
   }
 

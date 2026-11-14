@@ -1,6 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Service, inject, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 interface WeatherResponse {
   current: {
@@ -28,15 +28,17 @@ export class WeatherApiService {
   private currentCity = signal<City | null>(null);
   private weatherURL = 'https://api.open-meteo.com/v1/forecast';
 
-  generateCurrentCityFromName(city: string) {
+  generateCurrentCityFromName(city: string): Promise<City | null> {
     const encodedCity = this.encodeCityName(city);
-    return this.http.get<GeocodingResponse>(
-      `${this.searchNameURL}search?name=${encodedCity}`
-    ).pipe(
-      tap((response) => {
-        this.currentCity.set(response.results?.[0] ?? null);
-      })
-    );
+    return firstValueFrom(
+      this.http.get<GeocodingResponse>(
+        `${this.searchNameURL}search?name=${encodedCity}`
+      )
+    ).then((response) => {
+      this.currentCity.set(response.results?.[0] ?? null);
+      console.log('Current city set to:', this.currentCity());
+      return this.currentCity();
+    });
   }
 
   private encodeCityName(city: string): string {
