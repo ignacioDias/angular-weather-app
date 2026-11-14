@@ -8,4 +8,5 @@ import { WeatherResponse } from '../weather-api-service';
 })
 export class WeatherInfo {
   readonly currentWeather = input<WeatherResponse | null>(null);
+  readonly isLoading = input(false);
 }

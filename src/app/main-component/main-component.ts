@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { WeatherInfo } from '../weather-info/weather-info';
 import { SearchCity } from '../search-city/search-city';
 import { WeatherApiService, WeatherResponse } from '../weather-api-service';
@@ -16,6 +16,11 @@ export class MainComponent {
 
   protected currentWeather = signal<WeatherResponse | null>(null);
 
+  private searchInProgress = signal(false);
+  protected isLoading = computed(
+    () => this.searchInProgress() || this.weatherResource.isLoading()
+  );
+
   constructor() {
     effect(() => {
       this.currentWeather.set(this.weatherResource.value() ?? null);
@@ -23,12 +28,17 @@ export class MainComponent {
   }
 
   protected async onSearchQuery(query: string) {
-    if (query != null && query.trim() != '') {
-      try {
-        await this.weatherApiService.generateCurrentCityFromName(query);
-      } catch (error) {
-        console.error('Failed to look up city:', error);
-      }
+    if (query == null || query.trim() === '') {
+      return;
+    }
+
+    this.searchInProgress.set(true);
+    try {
+      await this.weatherApiService.generateCurrentCityFromName(query);
+    } catch (error) {
+      console.error('Failed to look up city:', error);
+    } finally {
+      this.searchInProgress.set(false);
     }
   }
 

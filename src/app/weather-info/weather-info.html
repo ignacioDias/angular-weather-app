@@ -1,4 +1,19 @@
-@if (currentWeather(); as current) {
+@if (isLoading()) {
+  <div
+    class="weather-info weather-info--loading"
+    role="status"
+    aria-live="polite"
+    aria-busy="true"
+  >
+    <span class="visually-hidden">Loading weather…</span>
+    <h2>Weather Information</h2>
+    <div class="skeleton-metrics" aria-hidden="true">
+      <span class="skeleton skeleton--metric"></span>
+      <span class="skeleton skeleton--metric"></span>
+      <span class="skeleton skeleton--metric"></span>
+    </div>
+  </div>
+} @else if (currentWeather(); as current) {
   <div class="weather-info">
     <h2>Weather Information</h2>
     <p>Temperature: {{ current.current.temperature_2m }}°C</p>
